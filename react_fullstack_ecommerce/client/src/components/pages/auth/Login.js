@@ -4,7 +4,10 @@ import { login } from '../../functions/auth'
 //redux
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import {toast} from "react-toastify"
 
+
+import { Spin } from 'antd'
 const Login = () => {
 const navigate = useNavigate()
 
@@ -14,6 +17,8 @@ const navigate = useNavigate()
     password: "",
    
 })
+
+const [loading,setLoading]=useState(false)
 
   const roleBaseRedirect = (role)=>{
     console.log(role)
@@ -34,14 +39,16 @@ const handleChang = (e) => {
 
 
 const handleSubmit = (e) => {
+  setLoading(true)
   e.preventDefault()
   console.log(value)
 
   //send to back
   login(value)
   .then((res)=>{
+    setLoading(false)
     console.log(res.data)
-    alert(res.data)
+    toast.success( "WeCome    "+res.data.payload.user.username + "  LoginSuccess")
 
     dispatch({type:"LOGIN",
     payload:{
@@ -56,15 +63,11 @@ const handleSubmit = (e) => {
   //check สิทธิ
   roleBaseRedirect(res.data.payload.user.role)
 
-
- 
-
-
-
   })
   .catch((err)=>{
+    setLoading(false)
     console.log(err)
-    alert(err.response.data)
+    toast.error(err.response.data)
   })
 
 }
@@ -72,19 +75,49 @@ const handleSubmit = (e) => {
 
 
   return (
-    <div>
-    <h1>Login Page</h1>
+    <div className='container'>
+
+      <div className='row'>
+        <div className='col-md-6 offset-md-3'>
+
+          {
+            loading ? <h1>loding... <Spin/></h1>
+            :<h1>Login Page</h1>
+          }
+ 
     <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
-        <input type="text" name='username' onChange={handleChang} /> <br />
 
-        <label htmlFor="password">Password</label>
-        <input type="text" name='password' onChange={handleChang} /><br />
+        <div className='form-group'>
+  <label htmlFor="username">Username</label>
+        <input 
+        className='form-control'
+        type="text" name='username' onChange={handleChang} /> 
+        </div>
+        <br />
 
-        <button disabled={value.password.length < 6}>Submit</button>
+      
+      <div className='form-group'>
+ <label htmlFor="password">Password</label>
+        <input type="text" name='password' onChange={handleChang}
+        className='form-control'
+        />
+      </div>
+      <br />
+       
+
+        <button disabled={value.password.length < 6}
+        className='btn btn-success'
+        >  {
+          loading ? <div>loding... <Spin/></div>
+          :<div>summit</div>
+        }
+</button>
 
     </form>
 
+        </div>
+      </div>
+   
 </div>
   )
 }

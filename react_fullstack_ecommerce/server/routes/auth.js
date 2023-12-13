@@ -4,13 +4,17 @@ const router = express.Router()
 
 
 // import controller
-const {register ,listUser,deleteUser,editUser ,login
+const {register ,
+    listUser,
+    deleteUser,
+    editUser ,
+    login
     ,currentUser}  = require('../controllers/auth')
 
 
 //middleware
 
-const {auth} = require('../middleware/auth')
+const {auth,adminCheck} = require('../middleware/auth')
 
 
 // router.post('/auth',(req,res)=>{
@@ -35,5 +39,7 @@ router.delete('/auth',deleteUser)
 
 //checktoken user admin
 router.post('/current-user',auth,currentUser)
+
+router.post('/current-admin',auth,adminCheck,currentUser)
 
 module.exports = router

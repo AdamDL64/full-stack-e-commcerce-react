@@ -24,6 +24,18 @@ export const currentUser = async(authtoken)=>{
     }
     )
 }
+export const currentAdmin = async(authtoken)=>{
+
+    console.log(authtoken)
+  return  await axios.post("http://localhost:5000/api/current-admin",
+  {},
+    {
+        headers :{
+            authtoken,
+        }
+    }
+    )
+}
 
 
 

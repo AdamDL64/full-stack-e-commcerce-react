@@ -7,6 +7,12 @@ import {legacy_createStore as createStore} from 'redux'
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./components/reducers/index";
 
+// import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
+import 'antd/dist/antd.min.css'     
+// eslint-disable-next-line
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import App from "./App";
 
 //router-dom
